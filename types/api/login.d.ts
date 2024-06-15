@@ -1,4 +1,4 @@
 interface LoginInfo {
-    mail: string,
+    username: string,
     password: string,
 }
