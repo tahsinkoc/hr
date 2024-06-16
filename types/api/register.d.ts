@@ -4,5 +4,5 @@ interface RegisterInfo {
     surname: string,
     mail: string,
     number: string,
-    password: string
+    password: string,
 }

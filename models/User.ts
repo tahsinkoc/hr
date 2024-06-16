@@ -7,7 +7,12 @@ const UserSchema = new mongoose.Schema({
     number: String,
     mail: String,
     name: String,
-    surname: String
+    surname: String,
+    role: String,
+    adress: String,
+    companyName: String,
+    field: String,
+    taskId: String,
 })
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema);

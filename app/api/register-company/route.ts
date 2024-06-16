@@ -4,17 +4,13 @@ import bcrypt from 'bcryptjs';
 import dbConnect from '@/components/api/DbConnection';
 import User from '@/models/User';
 
-// role: String,
-// adress: String,
-// companyName: String,
-// field: String,
-// taskId: String,
+
 
 export async function POST(request: NextRequest) {
 
     await dbConnect()
 
-    let data: RegisterInfo = await request.json();
+    let data: registerCompanyInfo = await request.json();
 
     let isExist = await User.findOne({ username: data.username })
 
@@ -29,16 +25,14 @@ export async function POST(request: NextRequest) {
         data.password = hashedPassword;
         const user = new User({
             username: data.username,
-            name: data.name,
-            surname: data.surname,
             number: data.number,
             mail: data.mail,
             password: hashedPassword,
-            role: 'user',
-            address: '',
-            companyName: '',
-            field: '',
-            taskId: ''
+            role: 'company',
+            address: data.address,
+            companyName: data.companyName,
+            field: data.field,
+            taskId: data.taskId
         })
         user.save();
 
