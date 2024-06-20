@@ -24,25 +24,31 @@ function page({ }: Props) {
     }
 
     return (
-        <div className='w-full flex xl:flex-row h-screen items-center justify-between'>
+        <div className='w-full overflow-y-hidden'>
             <title>Login</title>
-            <div className='xl:w-5/12 w-full h-full flex items-center justify-center px-24'>
-                <div className='w-full'>
-                    <div className='text-[3rem]'>
-                        <img className='w-[20rem] mb-4' src="/flexiwork.png" alt="" />
-                    </div>
-                    <TextField onChange={(e) => setUsername(e.target.value)} value={username} id="filled-basic" className='w-full my-2' label="Kullanıcı Adı" variant="filled" />
-                    <TextField onChange={(e) => setPassword(e.target.value)} value={password} id="filled-basic" className='w-full my-2' label="Şifre" type='password' variant="filled" />
-                    <Button onClick={Login} variant="contained" size='large' className='w-full my-2'>Giriş Yap</Button>
-                    <div className='my-2'>
-                        Hesabın yok mu? <Link className='text-blue-500' href={'/register'}>
-                            Kayıt Ol
-                        </Link>
+            <div className='relative top-0 w-full h-full'>
+                <div className='flex xl:flex-row h-screen items-center justify-center xl:py-36 w-full'>
+                    <div className='xl:w-5/12 w-full h-full flex items-center justify-center xl:px-24 px-4 bg-[rgba(240,242,245,.3)] backdrop-blur-2xl z-30 relative'>
+                        <div className='w-full rounded-lg flex items-center justify-center flex-col'>
+                            <div className='text-[3rem]'>
+                                <img className='w-[20rem] my-8' src="/flexiwork.png" alt="" />
+                            </div>
+                            {/* sx={{ input: { color: 'white' } }} */}
+                            <TextField color='warning' onChange={(e) => setUsername(e.target.value)} value={username} className='w-full my-2' label="Kullanıcı Adı" variant="filled" />
+                            <TextField color='warning' onChange={(e) => setPassword(e.target.value)} value={password} className='w-full my-2' label="Şifre" type='password' variant="filled" />
+                            <Button onClick={Login} variant="contained" color='warning' size='large' className='w-full my-2 capitalize'>Giriş Yap</Button>
+                            <div className='my-2'>
+                                Hesabın yok mu? <Link className='text-orange-500' href={'/register'}>
+                                    Kayıt Ol
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className='bg-green-400 xl:w-7/12 w-full h-full xl:flex hidden shdd rounded-l-[3rem]'>
-                <img className='w-full h-auto rounded-l-[3rem]' src="https://www.ikea.com/images/an-ikea-co-worker-in-the-swedish-restaurant-serving-a-plate--1a2e8a8d4a9807b0de265ffbe9ddd9bf.jpg?f=xl" alt="" />
+                <div className='absolute w-full h-full z-0 bottom-0'>
+                    <div className='w-full h-full backdrop-blur-md absolute bottom-0'></div>
+                    <video className='xl:w-full w-auto xl:h-auto h-screen' src="/video.mp4" loop autoPlay muted></video>
+                </div>
             </div>
         </div>
     )
