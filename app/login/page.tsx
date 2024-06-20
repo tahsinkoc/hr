@@ -34,11 +34,11 @@ function page({ }: Props) {
                                 <img className='w-[20rem] my-8' src="/flexiwork.png" alt="" />
                             </div>
                             {/* sx={{ input: { color: 'white' } }} */}
-                            <TextField color='warning' onChange={(e) => setUsername(e.target.value)} value={username} className='w-full my-2' label="Kullanıcı Adı" variant="filled" />
+                            <TextField color='warning' onChange={(e) => setUsername(e.target.value)} value={username} className='w-full my-2' sx={{ input: { borderColor: 'orange' } }} label="Kullanıcı Adı" variant="filled" />
                             <TextField color='warning' onChange={(e) => setPassword(e.target.value)} value={password} className='w-full my-2' label="Şifre" type='password' variant="filled" />
                             <Button onClick={Login} variant="contained" color='warning' size='large' className='w-full my-2 capitalize'>Giriş Yap</Button>
                             <div className='my-2'>
-                                Hesabın yok mu? <Link className='text-orange-500' href={'/register'}>
+                                Hesabın yok mu? <Link className='text-[#fcba03]' href={'/register'}>
                                     Kayıt Ol
                                 </Link>
                             </div>
@@ -46,7 +46,7 @@ function page({ }: Props) {
                     </div>
                 </div>
                 <div className='absolute w-full h-full z-0 bottom-0'>
-                    <div className='w-full h-full backdrop-blur-md absolute bottom-0'></div>
+                    <div className='w-full h-full backdrop-blur-xl absolute bottom-0'></div>
                     <video className='xl:w-full w-auto xl:h-auto h-screen' src="/video.mp4" loop autoPlay muted></video>
                 </div>
             </div>
