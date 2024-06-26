@@ -8,11 +8,11 @@ import dbConnect from '@/components/api/DbConnection';
 export async function POST(request: NextRequest) {
 
     await dbConnect()
-    const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+    const JWT_SECRET = process.env.JWT_SECRET || 'xtraypohjkl*12asjmbnş_78//ıuatğkl0_.sah';
 
 
     let data: LoginInfo = await request.json();
-    let user = await User.findOne({ username: data.username })
+    let user = await User.findOne({ username: data.username, role: 'user' })
     if (user) {
         let passwordCompare = await bcrypt.compare(data.password, user.password);
         if (!passwordCompare) {

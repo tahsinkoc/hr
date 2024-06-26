@@ -3,6 +3,7 @@ import { type NextRequest } from 'next/server';
 import bcrypt from 'bcryptjs';
 import dbConnect from '@/components/api/DbConnection';
 import User from '@/models/User';
+import Confirmation from '@/models/Confirmation';
 
 
 
@@ -16,9 +17,9 @@ export async function POST(request: NextRequest) {
 
     if (isExist) {
         console.log(isExist);
-        return new Response('Username already taken.', {
+        return new Response(JSON.stringify({ token: 'Username already taken.', status: 403 }), {
             status: 403,
-            headers: { 'Content-Type': 'application/json' }
+            headers: { "Content-Type": "application/json" },
         })
     } else {
         const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -34,9 +35,23 @@ export async function POST(request: NextRequest) {
             field: data.field,
             taskId: data.taskId
         })
-        user.save();
+        user.save()
+        const confirmation = new Confirmation({
+            companyName: data.companyName,
+            mail: data.mail,
+            phone: data.number,
+            status: false,
+            taxId: data.taskId,
+            companyUserId: data.username
+        });
+        confirmation.save();
 
-        return Response.json({ data, hashedPassword })
+
+
+        return new Response(JSON.stringify({ token: 'Succesfully created.', status: 200 }), {
+            status: 201,
+            headers: { "Content-Type": "application/json" },
+        })
     }
 
 

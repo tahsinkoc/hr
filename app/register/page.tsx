@@ -91,7 +91,7 @@ function page({ }: Props) {
         </Alert>
       }
       <div className='absolute top-0 left-0 backdrop-blur-xl w-full h-full flex items-center justify-center xl:py-32 py-0 z-50'>
-        <div className='bg-[rgba(240,242,245,.3)] backdrop-blur-[20rem] min-h-full xl:w-6/12 w-full overflow-y-scroll hidesc px-10 py-4 z-50'>
+        <div className='bg-[rgba(240,242,245,.5)] backdrop-blur-[20rem] min-h-full xl:w-6/12 w-full overflow-y-scroll hidesc px-10 py-4 z-50'>
           <div className='w-full flex items-center justify-between'>
             <img className='w-[20rem] my-4' src="/flexiwork.png" alt="" />
             <p className='text-xl text xl:block hidden txshadow'>Kullanıcı kayıt formu</p>

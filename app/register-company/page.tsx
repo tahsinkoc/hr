@@ -38,7 +38,7 @@ function page({ }: Props) {
 
     const Register = (e: any) => {
         e.preventDefault();
-        fetch('/api/register', {
+        fetch('/api/register-company', {
             method: 'POST',
             headers: {
                 "Content-Type": 'application/json'
@@ -84,16 +84,18 @@ function page({ }: Props) {
     }
 
     return (
-        <div className='w-full h-screen flex items-center justify-center'>
+        <div className='w-full min-h-screen flex items-center justify-center bg-[rgba(202,220,252,.4)]'>
             <title>Kayıt Ol</title>
-            {
-                // @ts-ignore
-                alert.open && <Alert severity={alert.severity}>
-                    {alert.content}
-                </Alert>
-            }
+            <div className='fixed top-0 w-full py-10 z-50 flex items-center justify-center'>
+                {
+                    // @ts-ignore
+                    alert.open && <Alert className='w-96' severity={alert.severity}>
+                        {alert.content}
+                    </Alert>
+                }
+            </div>
             <div className='xl:py-10 py-0'>
-                <div className='xl:w-[40rem] w-full overflow-y-scroll hidesc px-10 py-4 z-50 shadow-lg'>
+                <div className='xl:w-[40rem] w-full overflow-y-scroll hidesc px-10 py-4 z-50 shadow-lg bg-[#fff]'>
                     <div className='w-full flex items-center justify-between'>
                         <img className='w-[20rem] my-4' src="/flexiwork.png" alt="" />
                         <p className='text-xl text xl:block hidden txshadow'>Şirket kayıt formu</p>
