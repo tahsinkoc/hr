@@ -9,6 +9,6 @@ const ConfirmSchema = new mongoose.Schema({
     taxId: String
 });
 
-const Confirmation = mongoose.model('CompanyConfirmation', ConfirmSchema);
+const Confirmation = mongoose.models.companyconfirmation || mongoose.model('companyconfirmation', ConfirmSchema);
 
 export default Confirmation;

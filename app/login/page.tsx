@@ -38,7 +38,7 @@ function page({ }: Props) {
                         severity: 'success',
                         open: true
                     })
-
+                    localStorage.setItem('auth', res.message)
                     setTimeout(() => {
                         setAlert({
                             content: '',
