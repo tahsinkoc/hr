@@ -7,7 +7,7 @@ type Props = {}
 function Provider({ children }: any) {
     const darkTheme = createTheme({
         palette: {
-            mode: 'dark',
+            mode: 'light',
             warning: {
                 light: '#fcba03',
                 main: '#fcba03',

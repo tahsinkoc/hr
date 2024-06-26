@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react'
-import { Button, TextField, Tab, Tabs } from '@mui/material';
+import { Button, TextField, Tab, Tabs, Alert } from '@mui/material';
 
 import Link from 'next/link';
 type Props = {}
@@ -17,6 +17,11 @@ function page({ }: Props) {
     username: ''
   });
 
+  const [alert, setAlert] = useState({
+    content: '',
+    severity: 'success',
+    open: false
+  })
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const handleChange = (e: any) => {
@@ -40,6 +45,38 @@ function page({ }: Props) {
     })
       .then(res => res.json())
       .then(res => {
+
+        if (res.status === 200) {
+          setAlert({
+            content: 'Kayıt işlemi başarılı',
+            severity: 'success',
+            open: true
+          })
+
+          setTimeout(() => {
+            setAlert({
+              content: '',
+              severity: '',
+              open: false
+            })
+          }, 2000);
+        } else {
+          setAlert({
+            content: 'Kayıt işlemi başarısız',
+            severity: 'error',
+            open: true
+          })
+
+          setTimeout(() => {
+            setAlert({
+              content: '',
+              severity: '',
+              open: false
+            })
+          }, 2000);
+        }
+
+
         console.log(res);
       })
   }
@@ -47,6 +84,12 @@ function page({ }: Props) {
   return (
     <div className='w-full h-screen'>
       <title>Kayıt Ol</title>
+      {
+        // @ts-ignore
+        alert.open && <Alert severity={alert.severity}>
+          {alert.content}
+        </Alert>
+      }
       <div className='absolute top-0 left-0 backdrop-blur-xl w-full h-full flex items-center justify-center xl:py-32 py-0 z-50'>
         <div className='bg-[rgba(240,242,245,.3)] backdrop-blur-[20rem] min-h-full xl:w-6/12 w-full overflow-y-scroll hidesc px-10 py-4 z-50'>
           <div className='w-full flex items-center justify-between'>

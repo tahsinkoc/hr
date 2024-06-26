@@ -1,13 +1,25 @@
 'use client';
 import { useEffect, useState } from 'react'
-import { Button, TextField } from '@mui/material';
+import { Alert, Button, TextField } from '@mui/material';
 import Link from 'next/link';
+
 type Props = {}
+type alertType = {
+    content: string,
+    severity: string,
+    open: boolean
+}
 
 function page({ }: Props) {
 
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [alert, setAlert] = useState<alertType>({
+        content: '',
+        severity: 'success',
+        open: false
+    })
+
 
     const Login = () => {
         fetch('/api/login', {
@@ -19,6 +31,37 @@ function page({ }: Props) {
         })
             .then(res => res.json())
             .then(res => {
+
+                if (res.status === 200) {
+                    setAlert({
+                        content: 'Giriş başarılı',
+                        severity: 'success',
+                        open: true
+                    })
+
+                    setTimeout(() => {
+                        setAlert({
+                            content: '',
+                            severity: '',
+                            open: false
+                        })
+                    }, 2000);
+                } else {
+                    setAlert({
+                        content: 'Kullanıcı adı veya şifre yanlış',
+                        severity: 'error',
+                        open: true
+                    })
+
+                    setTimeout(() => {
+                        setAlert({
+                            content: '',
+                            severity: '',
+                            open: false
+                        })
+                    }, 2000);
+                }
+
                 console.log(res);
             })
     }
@@ -26,6 +69,14 @@ function page({ }: Props) {
     return (
         <div className='w-full overflow-y-hidden'>
             <title>Login</title>
+            <div className='w-full flex items-center justify-center fixed top-0 z-50 py-10'>
+                {
+                    // @ts-ignore
+                    alert.open && <Alert severity={alert.severity}>
+                        {alert.content}
+                    </Alert>
+                }
+            </div>
             <div className='relative top-0 w-full h-full'>
                 <div className='flex xl:flex-row h-screen items-center justify-center xl:py-36 w-full'>
                     <div className='xl:w-5/12 w-full h-full flex items-center justify-center xl:px-24 px-4 bg-[rgba(240,242,245,.3)] backdrop-blur-2xl z-30 relative'>
