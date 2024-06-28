@@ -36,6 +36,7 @@ type fetchItem = {
 function ConfirmTable() {
 
     const [confirms, setConfirms] = useState<fetchData>();
+    const [loader, setLoader] = useState(false);
     const [search, setSearch] = useState('')
     function handleChange(e: any) {
         let val = e.target.value;

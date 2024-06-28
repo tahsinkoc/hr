@@ -6,7 +6,8 @@ const ConfirmSchema = new mongoose.Schema({
     companyUserId: String,
     phone: String,
     mail: String,
-    taxId: String
+    taxId: String,
+    spam: Boolean
 });
 
 const Confirmation = mongoose.models.companyconfirmation || mongoose.model('companyconfirmation', ConfirmSchema);

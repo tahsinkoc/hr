@@ -42,7 +42,8 @@ export async function POST(request: NextRequest) {
             phone: data.number,
             status: false,
             taxId: data.taskId,
-            companyUserId: data.username
+            companyUserId: data.username,
+            spam: false
         });
         confirmation.save();
 

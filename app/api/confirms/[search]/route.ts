@@ -19,7 +19,7 @@ export async function GET(request: NextRequest, { params }: { params: { search?:
 
 
     if (search === '-**-') {
-        const confirmations = await Confirmation.find();
+        const confirmations = await Confirmation.find({ status: false });
         return new NextResponse(JSON.stringify({ data: confirmations, status: 200 }), {
             status: 200,
             headers: { "Content-Type": "application/json" },
