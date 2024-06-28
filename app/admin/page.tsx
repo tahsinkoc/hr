@@ -18,7 +18,9 @@ import {
     Tabs,
     Tab,
 } from '@mui/material';
+
 import ConfirmTable from '@/components/client/ConfirmTable';
+import { AuthClient } from '@/components/client/Authentication';
 
 type Props = {}
 
@@ -38,11 +40,16 @@ type fetchData = {
 
 function page({ }: Props) {
 
+    useEffect(() => {
+        AuthClient('admin').then((res) => {
+        })
+    }, [])
+
+
     const [open, setOpen] = useState({
         open: false,
         content: true
     });
-
 
 
     const [tabi, setTabi] = useState<number>(0);
@@ -63,9 +70,8 @@ function page({ }: Props) {
         ]
 
         return divs[index]
-
-
     }
+
 
     return (
         <div className='bg-[rgba(149,152,158,.4)] min-h-screen'>

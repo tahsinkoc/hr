@@ -1,11 +1,18 @@
-import React from 'react'
+export async function AuthClient(role: string) {
+    let token = localStorage.getItem('auth');
+    if (token) {
 
-type Props = {}
+        let check = await fetch('/api/auth/' + role, { method: 'GET', headers: { 'Content-Type': 'application/json', 'Auth': token } });
+        let parsed = await check.json();
+        if (parsed.stat === false) {
+            location.href = '/permision';
+        }
 
-function Authentication({ }: Props) {
-    return (
-        <div>Authentication</div>
-    )
+    } else {
+        location.href = '/permision';
+    }
+
+
+
+
 }
-
-export default Authentication

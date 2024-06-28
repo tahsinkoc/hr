@@ -17,15 +17,25 @@ export async function Auth(request: NextRequest, allowedRoles: string[]) {
     let token = request.headers.get('Auth')
 
     if (token) {
-        let user: any = jwt.verify(token, secret);
-        await dbConnect();
-        const speUser = await User.findOne({ _id: user.userId });
-        let isAllowed = allowedRoles.find(item => item === speUser.role);
-        if (!isAllowed) {
-            return false
-        } else {
-            return true
+        try {
+            let user: any = jwt.verify(token, secret);
+            if (user) {
+                await dbConnect();
+                const speUser = await User.findOne({ _id: user.userId });
+                let isAllowed = allowedRoles.find(item => item === speUser.role);
+                if (!isAllowed) {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
         }
+        catch (err) {
+            return false
+        }
+
     } else {
         return false
     }
