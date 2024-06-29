@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react'
 import { Button, TextField, Tab, Tabs, Alert } from '@mui/material';
-
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 type Props = {}
 
@@ -33,7 +33,7 @@ function page({ }: Props) {
   };
 
 
-
+  const router = useRouter();
   const Register = (e: any) => {
     e.preventDefault();
     fetch('/api/register', {
@@ -59,6 +59,7 @@ function page({ }: Props) {
               severity: '',
               open: false
             })
+            router.push('/login')
           }, 2000);
         } else {
           setAlert({
@@ -84,12 +85,14 @@ function page({ }: Props) {
   return (
     <div className='w-full h-screen'>
       <title>Kayıt Ol</title>
-      {
-        // @ts-ignore
-        alert.open && <Alert severity={alert.severity}>
-          {alert.content}
-        </Alert>
-      }
+      <div className='fixed top-0 w-full py-10 z-[9999] flex items-center justify-center'>
+        {
+          // @ts-ignore
+          alert.open && <Alert className='w-96' severity={alert.severity}>
+            {alert.content}
+          </Alert>
+        }
+      </div>
       <div className='absolute top-0 left-0 backdrop-blur-xl w-full h-full flex items-center justify-center xl:py-32 py-0 z-50'>
         <div className='bg-[rgba(240,242,245,.5)] backdrop-blur-[20rem] min-h-full xl:w-6/12 w-full overflow-y-scroll hidesc px-10 py-4 z-50'>
           <div className='w-full flex items-center justify-between'>

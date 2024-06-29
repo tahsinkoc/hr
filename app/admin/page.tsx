@@ -41,7 +41,7 @@ type fetchData = {
 function page({ }: Props) {
 
     useEffect(() => {
-        AuthClient('admin').then((res) => {
+        AuthClient('admin', '/login-admin').then((res) => {
         })
     }, [])
 
