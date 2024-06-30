@@ -21,6 +21,7 @@ import {
 
 import ConfirmTable from '@/components/client/ConfirmTable';
 import { AuthClient } from '@/components/client/Authentication';
+import AuthProvider from '@/components/client/AuthProvider';
 
 type Props = {}
 
@@ -40,10 +41,10 @@ type fetchData = {
 
 function page({ }: Props) {
 
-    useEffect(() => {
-        AuthClient('admin', '/login-admin').then((res) => {
-        })
-    }, [])
+    // useEffect(() => {
+    //     AuthClient('admin', '/login-admin').then((res) => {
+    //     })
+    // }, [])
 
 
     const [open, setOpen] = useState({
@@ -74,7 +75,8 @@ function page({ }: Props) {
 
 
     return (
-        <div className='bg-[rgba(149,152,158,.4)] min-h-screen'>
+        <AuthProvider role='admin' direction='/login-admin'>
+             <div className='bg-[rgba(149,152,158,.4)] min-h-screen'>
             <DrawerListe />
             <div className='px-4'>
                 <div className='w-full'>
@@ -91,6 +93,7 @@ function page({ }: Props) {
 
             </div>
         </div>
+        </AuthProvider>
     )
 }
 
