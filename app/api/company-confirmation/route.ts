@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     speConfirm.spam = !reqData.mod;
     speConfirm.save();
 
-    return new Response(JSON.stringify({ token: 'Succesfully Changed.', status: 200 }), {
+    return new Response(JSON.stringify({ token: 'Succesfully Confirmed.', status: 200 }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
     })
