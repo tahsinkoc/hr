@@ -8,7 +8,8 @@ export async function GET(request: NextRequest, { params }: { params: { search?:
     const { search } = params;
 
     await dbConnect();
-
+    let spam = request.headers.get('Spam');
+    let status = request.headers.get('Status');
     let auth = await Auth(request, ['admin']);
     if (!auth) {
         return new NextResponse(JSON.stringify({ data: 'Unauthorized', status: 401 }), {
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest, { params }: { params: { search?:
 
 
     if (search === '-**-') {
-        const confirmations = await Confirmation.find({ status: false });
+        const confirmations = await Confirmation.find({ status: status, spam: spam });
         return new NextResponse(JSON.stringify({ data: confirmations, status: 200 }), {
             status: 200,
             headers: { "Content-Type": "application/json" },
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest, { params }: { params: { search?:
     } else {
         if (search) {
             const regex = new RegExp(search, 'i'); // 'i' flag for case-insensitive search
-            const confirmations = await Confirmation.find({ companyUserId: { $regex: regex } });
+            const confirmations = await Confirmation.find({ companyUserId: { $regex: regex }, status: status, spam: spam });
             return new NextResponse(JSON.stringify({ data: confirmations, status: 200 }), {
                 status: 200,
                 headers: { "Content-Type": "application/json" },

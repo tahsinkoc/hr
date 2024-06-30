@@ -1,7 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react'
 
-type Props = {}
+type Props = {
+    spam: string,
+    status: string
+}
 import {
     Table,
     TableBody,
@@ -34,7 +37,7 @@ type fetchItem = {
     mail: string,
     taxId: string
 }
-function ConfirmTable() {
+function ConfirmTable({ spam, status }: Props) {
 
     const [confirms, setConfirms] = useState<fetchData>();
     const [loader, setLoader] = useState(false);
@@ -46,6 +49,10 @@ function ConfirmTable() {
         }
         setSearch(val)
     }
+    const [open, setOpen] = useState({
+        open: false,
+        content: true
+    });
     useEffect(() => {
         let token = localStorage.getItem('auth');
         if (token) {
@@ -53,6 +60,8 @@ function ConfirmTable() {
                 method: 'GET',
                 headers: {
                     'Auth': token,
+                    'Status': status,
+                    'Spam': spam
                 }
             })
                 .then(res => res.json())
@@ -64,13 +73,47 @@ function ConfirmTable() {
 
         }
 
-    }, [search])
+    }, [search, spam, status, open])
 
-    const [open, setOpen] = useState({
-        open: false,
-        content: true
-    });
 
+
+    type postData = {
+        username: string,
+        mod: boolean
+    }
+
+
+    const [postData, setPostData] = useState<postData>({
+        username: '',
+        mod: false
+    })
+    const [confirmText, setConfirmText] = useState<string>('');
+
+    function handleClick(content: boolean, username: string) {
+        setPostData({
+            username: username,
+            mod: content
+        });
+        setOpen({ open: true, content: content });
+    }
+
+    function sendReq() {
+        let token = localStorage.getItem('auth');
+        if (token) {
+            fetch('/api/company-confirmation', {
+                method: 'POST',
+                body: JSON.stringify(postData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Auth': token
+                }
+            }).then(res => res.json())
+                .then(res => {
+                    setOpen({ open: false, content: false })
+                })
+        }
+
+    }
 
     return (
         <div className='w-full'>
@@ -87,16 +130,16 @@ function ConfirmTable() {
                                 <Typography id="modal-modal-title" variant="h6" component="h2">
                                     Şirketi onaylamak için "onayla" yazınız.
                                 </Typography>
-                                <TextField size='small' className='w-full mt-4' color='success' label="Yaz" />
-                                <Button variant='contained' className='mt-4' color='success'>
+                                <TextField value={confirmText} onChange={(e) => setConfirmText(e.target.value)} size='small' className='w-full mt-4' color='success' label="Yaz" />
+                                <Button onClick={sendReq} disabled={confirmText !== 'onayla'} variant='contained' className='mt-4' color='success'>
                                     Onayla
                                 </Button>
                             </div> : <div className='absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] shadow-lg p-4 bg-white sm:w-[30rem] w-11/12' >
                                 <Typography id="modal-modal-title" variant="h6" component="h2">
                                     Şirketi spam listesine almak için "spam" yazınız.
                                 </Typography>
-                                <TextField size='small' className='w-full mt-4' color='error' label="Yaz" />
-                                <Button variant='contained' className='mt-4' color='error'>
+                                <TextField value={confirmText} onChange={(e) => setConfirmText(e.target.value)} size='small' className='w-full mt-4' color='error' label="Yaz" />
+                                <Button onClick={sendReq} disabled={confirmText !== 'spam'} variant='contained' className='mt-4' color='error'>
                                     Spam
                                 </Button>
                             </div>
@@ -109,8 +152,11 @@ function ConfirmTable() {
                                 <TableCell>Şirket Kullanıcı Adı</TableCell>
                                 <TableCell>Mail Adresi</TableCell>
                                 <TableCell>Telefon Numarası</TableCell>
-                                <TableCell>Vergi Numarası</TableCell>
-                                <TableCell align="right">İşlemler</TableCell>
+                                <TableCell align={status === 'false' && spam === 'false' ? 'left' : 'right'}>Vergi Numarası</TableCell>
+                                {
+                                    status === 'false' && spam === 'false' ? <TableCell align="right">İşlemler</TableCell> : <></>
+                                }
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -131,25 +177,27 @@ function ConfirmTable() {
                                     <TableCell component="th" scope="row">
                                         {item.phone}
                                     </TableCell>
-                                    <TableCell component="th" scope="row">
+                                    <TableCell align={status === 'false' && spam === 'false' ? 'left' : 'right'} component="th" scope="row">
                                         {item.taxId}
                                     </TableCell>
-                                    <TableCell align='right' component="th" scope="row">
-                                        <div className='flex flex-row justify-end'>
-                                            <Button onClick={() => setOpen({ open: true, content: true })} className='mx-2' color='success' variant='outlined'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                                                </svg>
-                                                <p className='ml-2 xl:block hidden'>Onayla</p>
-                                            </Button>
-                                            <Button onClick={() => setOpen({ open: true, content: false })} className='mx-2' color='error' variant='outlined'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                                                </svg>
-                                                <p className='ml-2 xl:block hidden'>Spam olarak işaretle</p>
-                                            </Button>
-                                        </div>
-                                    </TableCell>
+                                    {
+                                        status === 'false' && spam === 'false' ? <TableCell align='right' component="th" scope="row">
+                                            <div className='flex flex-row justify-end'>
+                                                <Button onClick={() => handleClick(true, item.companyUserId)} className='mx-2' color='success' variant='outlined'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                                    </svg>
+                                                    <p className='ml-2 xl:block hidden'>Onayla</p>
+                                                </Button>
+                                                <Button onClick={() => handleClick(false, item.companyUserId)} className='mx-2' color='error' variant='outlined'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                                    </svg>
+                                                    <p className='ml-2 xl:block hidden'>Spam olarak işaretle</p>
+                                                </Button>
+                                            </div>
+                                        </TableCell> : <></>
+                                    }
                                 </TableRow>
                             ))}
                         </TableBody>

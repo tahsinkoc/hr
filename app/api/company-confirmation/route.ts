@@ -24,17 +24,22 @@ export async function POST(request: NextRequest) {
         });
     }
 
-    const speUser: any = User.findOne({ username: reqData.username, role: 'company' });
-    speUser.status = reqData.mod;
-    speUser.save();
-    const speConfirm: any = Confirmation.findOne({ companyUserId: reqData.username });
-    speConfirm.status = reqData.mod;
-    speConfirm.spam = !reqData.mod;
-    speConfirm.save();
+    const speUser: any = await User.findOne({ username: reqData.username, role: 'company' });
+    if (speUser) {
+        speUser.status = reqData.mod;
+        await speUser.save();
+        const speConfirm: any = await Confirmation.findOne({ companyUserId: reqData.username });
+        if (speConfirm) {
+            speConfirm.status = reqData.mod;
+            speConfirm.spam = !reqData.mod;
+            await speConfirm.save();
+            return new Response(JSON.stringify({ token: 'Succesfully Confirmed.', status: 200 }), {
+                status: 200,
+                headers: { "Content-Type": "application/json" },
+            })
+        }
+    }
 
-    return new Response(JSON.stringify({ token: 'Succesfully Confirmed.', status: 200 }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-    })
+
 
 }

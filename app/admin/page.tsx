@@ -48,23 +48,22 @@ function page({ }: Props) {
 
 
     const [tabi, setTabi] = useState<number>(0);
-
+    const [trgt, setTrgt] = useState({
+        spam: false,
+        status: false
+    })
     function TabContent(index: number) {
+        console.log(index);
+        setTabi(index)
 
-        let divs = [
-            <ConfirmTable />,
-            <div className='w-full'>
-                Content2
-            </div>,
-            <div className='w-full'>
-                Content3
-            </div>,
-            <div className='w-full'>
-                Content4
-            </div>
+        let stats = [
+            { spam: false, status: false },
+            { spam: true, status: false },
+            { spam: false, status: true }
         ]
 
-        return divs[index]
+        setTrgt(stats[index])
+        // return divs[index]
     }
 
 
@@ -74,13 +73,14 @@ function page({ }: Props) {
                 <DrawerListe />
                 <div className='px-4'>
                     <div className='w-full'>
-                        <Tabs indicatorColor='primary' textColor='primary' className='bg-white' value={tabi} onChange={(e, a) => setTabi(a)}>
+                        <Tabs indicatorColor='primary' textColor='primary' className='bg-white' value={tabi} onChange={(e, a) => TabContent(a)}>
                             <Tab label='Onay bekleyen Şirket hesapları' value={0} />
                             <Tab label='Spam Hesaplar' value={1} />
                             <Tab label='Onaylanmış Hesaplar' value={2} />
                         </Tabs>
                         <div className='my-3'>
-                            {TabContent(tabi)}
+                            <ConfirmTable status={trgt.status.toString()} spam={trgt.spam.toString()} />
+                            {/* {TabContent(tabi)} */}
                         </div>
                     </div>
 
