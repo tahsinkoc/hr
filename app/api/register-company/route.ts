@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
             username: data.username,
             number: data.number,
             mail: data.mail,
+            status: false,
             password: hashedPassword,
             role: 'company',
             address: data.address,

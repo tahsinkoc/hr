@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
     companyName: String,
     field: String,
     taskId: String,
+    status: Boolean
 })
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema);

@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
             surname: data.surname,
             number: data.number,
             mail: data.mail,
+            status: false,
             password: hashedPassword,
             role: 'user',
             address: '',

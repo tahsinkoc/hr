@@ -2,6 +2,7 @@
 import React from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import DrawerListe from './DrawerList';
 type Props = {}
 
 function Provider({ children }: any) {
@@ -21,7 +22,9 @@ function Provider({ children }: any) {
         <div>
             <ThemeProvider theme={darkTheme}>
                 <CssBaseline />
-                {children}
+                {
+                    children
+                }
             </ThemeProvider>
         </div>
     )

@@ -41,12 +41,6 @@ type fetchData = {
 
 function page({ }: Props) {
 
-    // useEffect(() => {
-    //     AuthClient('admin', '/login-admin').then((res) => {
-    //     })
-    // }, [])
-
-
     const [open, setOpen] = useState({
         open: false,
         content: true
@@ -76,23 +70,23 @@ function page({ }: Props) {
 
     return (
         <AuthProvider role='admin' direction='/login-admin'>
-             <div className='bg-[rgba(149,152,158,.4)] min-h-screen'>
-            <DrawerListe />
-            <div className='px-4'>
-                <div className='w-full'>
-                    <Tabs indicatorColor='primary' textColor='primary' className='bg-white' value={tabi} onChange={(e, a) => setTabi(a)}>
-                        <Tab label='Onay bekleyen Şirket hesapları' value={0} />
-                        <Tab label='Spam Hesaplar' value={1} />
-                        <Tab label='Onaylanmış Hesaplar' value={2} />
-                    </Tabs>
-                    <div className='my-3'>
-                        {TabContent(tabi)}
+            <div className='bg-[rgba(149,152,158,.4)] min-h-screen'>
+                <DrawerListe />
+                <div className='px-4'>
+                    <div className='w-full'>
+                        <Tabs indicatorColor='primary' textColor='primary' className='bg-white' value={tabi} onChange={(e, a) => setTabi(a)}>
+                            <Tab label='Onay bekleyen Şirket hesapları' value={0} />
+                            <Tab label='Spam Hesaplar' value={1} />
+                            <Tab label='Onaylanmış Hesaplar' value={2} />
+                        </Tabs>
+                        <div className='my-3'>
+                            {TabContent(tabi)}
+                        </div>
                     </div>
+
+
                 </div>
-
-
             </div>
-        </div>
         </AuthProvider>
     )
 }

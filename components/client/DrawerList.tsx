@@ -8,8 +8,9 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 export default function DrawerListe() {
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -18,16 +19,23 @@ export default function DrawerListe() {
     const DrawerList = (
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
+                <Link href={'/admin'}>
+                    <ListItem disablePadding>
                         <ListItemButton>
-                            {text}
+                            Şirket Hesabı Onay
                         </ListItemButton>
                     </ListItem>
-                ))}
+                </Link>
+                <Link href={'/admin/test'}>
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            Test
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
             </List>
             <Divider />
-            <List>
+            {/* <List>
                 {['All mail', 'Trash', 'Spam'].map((text, index) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton>
@@ -35,7 +43,7 @@ export default function DrawerListe() {
                         </ListItemButton>
                     </ListItem>
                 ))}
-            </List>
+            </List> */}
         </Box>
     );
 

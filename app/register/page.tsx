@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { Button, TextField, Tab, Tabs, Alert } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
